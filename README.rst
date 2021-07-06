@@ -17,7 +17,7 @@ The user specifies the desired maximum number of elements and the
 desired maximum false positive probability, and the module
 calculates the rest.
 
-::
+.. code-block:: python
 
     from bloom_filter2 import BloomFilter
 
@@ -36,3 +36,11 @@ calculates the rest.
 
     # Now check again
     assert "test-key" in bloom
+
+Bloom filter are pretty space efficient : only 200MB of memory usage for storing 100M elements with an error of 1%, compared to the 7GB required for set(range(10**8))
+
+It still can be pretty useful to save/load to files with the mmap implementation, for example to avoid rebuilding the bloom filter. The `mmap <https://en.wikipedia.org/wiki/Mmap>`_ functionality also save some memory depending on system settings.
+
+.. code-block:: python
+
+    bloom = BloomFilter(max_elements=10**8, error_rate=0.01, filename=('/tmp/bloom.bin', -1))
